@@ -7,7 +7,7 @@ Coming Soon™
 
 ### Technologies
 
-* **Backend** : Scala + Play Framework
+* **Backend** : Scala + Play Framework (*on Heroku*)
 * **Protocol** : REST API + [Server-sent events](https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events/Using_server-sent_events)
 * **Frontend** : HTML5 + AngularJS
 
