@@ -5,7 +5,9 @@ Our project page is available on Github Pages: https://galedric.github.io/HEIG-T
 
 ### Preview
 
-Coming Soon™
+![](https://galedric.github.io/HEIG-TWEB-Polls/images/feedback_trasn.png)
+![](https://galedric.github.io/HEIG-TWEB-Polls/images/poll.png)
+![](https://galedric.github.io/HEIG-TWEB-Polls/images/redaction.png)
 
 ### Technologies
 
