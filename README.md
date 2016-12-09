@@ -1,6 +1,8 @@
 # HEIG-TWEB-Polls
 Interactive Polls application for the TWEB course
 
+Our project page is available on Github Pages: https://galedric.github.io/HEIG-TWEB-Polls/
+
 ### Preview
 
 Coming Soon™
