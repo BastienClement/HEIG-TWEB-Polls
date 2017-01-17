@@ -9,7 +9,16 @@ import play.api.mvc.WebSocket.MessageFlowTransformer
 import play.api.mvc._
 import socket.Message
 
+/**
+  * The application controller
+  *
+  * @param teacherSocketFactory the factory for creating teacher sockets
+  * @param studentSocketFactory the factory for creating student sockets
+  * @param as                   the Play ActorSystem instance
+  * @param mat                  the Play Akka Stream Materializer
+  */
 class Application @Inject() (teacherSocketFactory: TeacherSocket.Factory)
+                            (studentSocketFactory: StudentSocket.Factory)
                             (implicit as: ActorSystem, mat: Materializer)
 		extends Controller {
 
@@ -17,7 +26,7 @@ class Application @Inject() (teacherSocketFactory: TeacherSocket.Factory)
 		Ok(views.html.test())
 	}
 
-	/** A flow transformer allowing to read and write SocketFrames */
+	/** A flow transformer allowing to read and write socket Messages */
 	private implicit val transformer: MessageFlowTransformer[Message, Message] =
 		MessageFlowTransformer.jsonMessageFlowTransformer[Message, Message]
 
@@ -28,6 +37,6 @@ class Application @Inject() (teacherSocketFactory: TeacherSocket.Factory)
 
 	/** The student socket endpoint */
 	def studentSocket(room: String) = WebSocket.accept[Message, Message] { request =>
-		ActorFlow.actorRef(out => StudentSocket.props(out))
+		ActorFlow.actorRef(out => Props(studentSocketFactory(out, room)))
 	}
 }

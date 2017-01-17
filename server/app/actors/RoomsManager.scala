@@ -9,7 +9,7 @@ class RoomsManager extends Actor {
 	private val random = new Random
 
 	/** Available rooms */
-	private var rooms = Map.empty[String, ActorRef]
+	private var rooms: Map[String, ActorRef] = Map.empty
 
 	/** Generates a new room id */
 	@tailrec
@@ -24,17 +24,18 @@ class RoomsManager extends Actor {
 	/** Message handler */
 	def receive: Receive = {
 		// Room creation from the teacher
-		case RoomsManager.CreateRoom(owner) =>
+		case RoomsManager.CreateRoom =>
 			val id = nextId
+			val owner = sender()
 			val room = context.actorOf(Props(new Room(owner)))
 			rooms += (id -> room)
 			context.watch(room)
 			sender() ! RoomsManager.RoomCreated(id, room)
 
 		// Joining room as a student
-		case RoomsManager.JoinRoom(id, client) =>
+		case RoomsManager.SearchRoom(id) =>
 			rooms.get(id) match {
-				case Some(room) => sender() ! RoomsManager.RoomJoined(room)
+				case Some(room) => sender() ! RoomsManager.RoomFound(room)
 				case None => sender() ! RoomsManager.RoomNotFound
 			}
 
@@ -45,10 +46,18 @@ class RoomsManager extends Actor {
 }
 
 object RoomsManager {
-	case class CreateRoom(owner: ActorRef)
+	/** Creates a new room with the sender as the owner */
+	case object CreateRoom
+
+	/** Response to the CreateRoom message */
 	case class RoomCreated(id: String, room: ActorRef)
 
-	case class JoinRoom(id: String, client: ActorRef)
-	case class RoomJoined(room: ActorRef)
+	/** Searches for a room with the given id */
+	case class SearchRoom(id: String)
+
+	/** Response to SearchRoom is the room was found */
+	case class RoomFound(room: ActorRef)
+
+	/** Response to SearchRoom is the room was not found */
 	case object RoomNotFound
 }

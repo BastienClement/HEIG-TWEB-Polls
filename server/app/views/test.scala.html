@@ -1,19 +1,78 @@
 @()
 <script>
-		var ws = new WebSocket("ws://localhost:9000/room");
-		ws.onopen = function (ev) {
-			console.log("OPEN:", ev);
-			/*setInterval(function () {
-				console.log("SEND");
-				ws.send(JSON.stringify({hello: "World"}));
-			}, 1000);*/
-		};
+	function verboseSocket(name, endpoint) {
+		console.log(name, "[CONNECTING]");
+        var ws = new WebSocket(endpoint);
+        var handlers = {
+        	send: function(label, payload) {
+        		var data = JSON.stringify({
+                    label: label,
+                    payload: payload
+                });
+        		console.log(name, ">>", data);
+        	    ws.send(data);
+            },
+            close: function() {
+                console.log(name, "[DISCONNECTING]");
+                ws.close();
+            }
+        };
 
-		ws.onmessage = function (msg) {
-			console.log("MSG:", msg);
-		};
+        ws.onopen = function(ev) {
+            console.log(name, "[OPEN]", endpoint);
+        };
 
-		ws.onclose = function(ev) {
-			console.log("CLOSE:", ev);
-		};
+        ws.onmessage = function(msg) {
+            console.log(name, "<<", msg.data);
+            var data = JSON.parse(msg.data);
+            if (handlers.onmessage) {
+                handlers.onmessage(data.label, data.payload);
+            }
+        };
+
+        ws.onclose = function(ev) {
+            console.log(name, "[CLOSE]");
+        };
+
+        return handlers;
+    }
+
+    var teacher = verboseSocket("teacher", "ws://localhost:9000/room");
+    teacher.onmessage = function(label, payload) {
+        switch (label) {
+            case "ROOM_READY":
+                console.log("---");
+                var student1 = verboseSocket("student1", "ws://localhost:9000/room/" + payload);
+                var student2 = verboseSocket("student2", "ws://localhost:9000/room/" + payload);
+                var student3 = verboseSocket("student3", "ws://localhost:9000/room/badroomid");
+                teacher.send("begin", {
+                	question: "Foobar ?",
+                    answers: [
+                    	"A", "B", "C"
+                    ],
+                    correct: 2
+                });
+                setTimeout(function() {
+                	console.log("---");
+                    student1.send("vote", 1);
+                }, 1000);
+                setTimeout(function() {
+                    console.log("---");
+                    teacher.send("close", null);
+                }, 2000);
+                setTimeout(function() {
+                    console.log("---");
+                    student2.close();
+                }, 2500);
+                setTimeout(function() {
+                    console.log("---");
+                    teacher.send("end", null);
+                }, 3000);
+                setTimeout(function() {
+                    console.log("---");
+                    teacher.close();
+                }, 4000);
+                break;
+        }
+    }
 </script>
