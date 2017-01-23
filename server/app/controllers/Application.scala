@@ -23,7 +23,7 @@ class Application @Inject() (teacherSocketFactory: TeacherSocket.Factory)
 		extends Controller {
 
 	def index = Action {
-		Ok(views.html.test())
+		Ok(views.html.teacher())
 	}
 
 	/** A flow transformer allowing to read and write socket Messages */

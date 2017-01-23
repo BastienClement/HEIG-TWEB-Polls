@@ -1,0 +1,54 @@
+:host {
+	display: block;
+	background: #e97770 url("/assets/images/overlay.png");
+	color: #fff;
+	padding: 25px;
+	text-align: center;
+}
+
+#top {
+	max-width: 700px;
+	margin: auto;
+	display: flex;
+	text-align: left;
+	line-height: 32px;
+	padding: 0 5px;
+	box-sizing: border-box;
+}
+
+h1, h2 {
+	font-weight: 500;
+	margin: 0;
+}
+
+#url-text {
+	margin: 60px 0 10px 0;
+	font-size: 18px;
+	opacity: 0.5;
+	font-weight: 400;
+}
+
+h1 {
+	margin: 0 0 90px 0;
+	font-size: 56px;
+}
+
+h1 span {
+	opacity: 0.8;
+}
+
+h2 {
+	flex: 1;
+}
+
+#top .material-icons {
+	vertical-align: -6px;
+}
+
+#top button {
+	margin-right: 10px;
+}
+
+#user-count {
+	font-weight: 500;
+}

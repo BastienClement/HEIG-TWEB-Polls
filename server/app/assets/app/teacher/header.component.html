@@ -1,0 +1,10 @@
+<div id="top">
+	<h2>Twoll.me</h2>
+	<div>
+		<button md-button (click)="openQR()">QR Code</button>
+		<i class="material-icons">perm_identity</i> <span id="user-count">{{service.onlines | async}}</span>
+	</div>
+</div>
+<div id="url-text">Quick-access link for this room</div>
+<h1><span>twoll.me/</span>{{service.roomId | async}}</h1>
+

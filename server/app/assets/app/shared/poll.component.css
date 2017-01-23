@@ -1,0 +1,20 @@
+#title {
+	display: flex;
+	align-items: center;
+}
+
+h3 {
+	font-weight: 500;
+	margin: 0;
+	flex: 1;
+}
+
+#title button {
+	min-width: 0;
+	opacity: 0.3;
+	transition: opacity ease-in-out .2s;
+}
+
+#title button:hover {
+	opacity: 1;
+}
