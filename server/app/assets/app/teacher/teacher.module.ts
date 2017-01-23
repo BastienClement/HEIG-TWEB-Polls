@@ -1,5 +1,6 @@
 import {NgModule} from "@angular/core";
 import {BrowserModule} from "@angular/platform-browser";
+import {FormsModule} from "@angular/forms";
 import {MaterialModule} from "@angular/material";
 import {TeacherComponent} from "./teacher.component";
 import {TeacherService} from "./teacher.service";
@@ -10,6 +11,7 @@ import {HeaderComponent, HeaderQRCodeComponent} from "./header.component";
 @NgModule({
 	imports: [
 		BrowserModule,
+		FormsModule,
 		MaterialModule.forRoot()
 	],
 	declarations: [

@@ -1,12 +1,10 @@
+:host {
+	display: block;
+}
+
 #title {
 	display: flex;
 	align-items: center;
-}
-
-h3 {
-	font-weight: 500;
-	margin: 0;
-	flex: 1;
 }
 
 #title button {
@@ -17,4 +15,120 @@ h3 {
 
 #title button:hover {
 	opacity: 1;
+}
+
+h3 {
+	font-weight: 500;
+	margin: 0;
+	flex: 1;
+}
+
+md-card-content {
+	margin-top: 16px;
+}
+
+md-card-actions {
+	margin-top: -12px;
+	margin-bottom: -6px !important;
+}
+
+input#question {
+	flex: 1;
+	font-size: 1.17em;
+	font-weight: 500;
+	display: block;
+	margin: -2px 0 -2px -3px;
+	font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.answer {
+	display: flex;
+	margin: 6px 0;
+	align-items: center;
+}
+
+.answer > i {
+	margin-left: -7px;
+	margin-right: 5px;
+}
+
+.answer input {
+	flex: 1;
+	font-size: 16px;
+}
+
+.answer button {
+	min-width: 0;
+	margin-left: 5px;
+}
+
+#delete {
+	color: red;
+}
+
+#actions-right {
+	float: right;
+}
+
+.answer-bar-wrapper {
+	border: 1px solid rgba(17, 17, 17, 0.2);
+	padding: 2px;
+	border-radius: 2px;
+	margin: 12px 0;
+	position: relative;
+}
+
+.answer-bar {
+	padding: 6px;
+	max-width: 100%;
+	background: rgba(233, 119, 112, 0.8);
+	height: 27px;
+}
+
+.answer-label {
+	line-height: 30px;
+	position: absolute;
+	font-weight: 500;
+	top: 6px;
+	left: 12px;
+	right: 100px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.answer-count {
+	line-height: 30px;
+	position: absolute;
+	font-weight: 300;
+	top: 6px;
+	right: 12px;
+}
+
+#vote-count {
+	font-size: 18px;
+	color: #999;
+	padding: 50px 0;
+	text-align: center;
+}
+
+#vote-count i, #vote-count span {
+	display: inline-block;
+	margin-top: 16px;
+	font-size: 52px;
+	color: #000;
+}
+
+#vote-count i {
+	position: relative;
+	top: 8px;
+	margin-right: 24px;
+}
+
+md-radio-button {
+	display: block;
+	margin: 10px 0;
+}
+
+#submit {
+	margin-top: 12px;
 }

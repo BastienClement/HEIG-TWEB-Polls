@@ -23,6 +23,13 @@ export class TwollSocket {
 	public get stream(): Observable<TwollSocketMessage> {
 		return this.subject.asObservable();
 	}
+
+	public send(label: string, payload: any = null): void {
+		this.socket.send(JSON.stringify({
+			label: label,
+			payload: payload
+		}));
+	}
 }
 
 export interface TwollSocketMessage {

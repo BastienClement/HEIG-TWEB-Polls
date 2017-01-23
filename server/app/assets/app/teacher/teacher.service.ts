@@ -2,7 +2,8 @@ import {Injectable} from "@angular/core";
 import {ReplaySubject} from "rxjs/ReplaySubject";
 import {Observable} from "rxjs/Observable";
 import {Poll} from "../models/poll";
-import {TwollSocket, TwollSocketMessage} from "../utils/twollsocket";
+import {TwollSocket} from "../utils/twollsocket";
+import {RoomState} from "../models/roomstate";
 
 @Injectable()
 export class TeacherService {
@@ -11,6 +12,8 @@ export class TeacherService {
 	public roomId = new ReplaySubject<string>(1);
 	public onlines = new ReplaySubject<number>(1);
 	public quickJoinURL: string;
+	public editing: string;
+	public state: RoomState = new RoomState();
 	public polls: Array<Poll> = [];
 
 	constructor() {
@@ -28,11 +31,45 @@ export class TeacherService {
 				case "STUDENTS_COUNT_UPDATED":
 					this.onlines.next(msg.payload);
 					break;
+				case "STATE_UPDATED":
+					this.state = msg.payload;
+					break;
+				default:
+					console.log(msg.label, msg.payload);
+					break;
 			}
 		});
 	}
 
 	public createPoll(): void {
-		this.polls.push(new Poll("What should this new poll's title be?"));
+		const poll = new Poll("What is the question of this new poll?");
+		this.polls.push(poll);
+		this.editing = poll.id;
+	}
+
+	public startEditing(poll: Poll): void {
+		this.editing = poll.id;
+	}
+
+	public stopEditing(poll: Poll): void {
+		if (poll.id == this.editing) {
+			this.editing = null;
+		}
+	}
+
+	public deletePoll(poll: Poll): void {
+		this.polls = this.polls.filter(p => p !== poll);
+	}
+
+	public startPoll(poll: Poll): void {
+		this.socket.send("begin", poll);
+	}
+
+	public stopPoll(): void {
+		this.socket.send("close");
+	}
+
+	public closePoll(): void {
+		this.socket.send("end");
 	}
 }

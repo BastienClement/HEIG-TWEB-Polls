@@ -4,7 +4,10 @@ import {TeacherService} from "./teacher.service";
 @Component({
 	selector: "twoll-poll-list",
 	template: `
-		<twoll-poll *ngFor="let poll of service.polls;" [poll]="poll" [index]="index"></twoll-poll>
+		<twoll-poll *ngFor="let poll of service.polls;"
+			[poll]="poll" [editable]="true" [editing]="service.editing == poll.id" [state]="service.state"
+			(onEdit)="service.startEditing(poll)" (onSave)="service.stopEditing(poll)" (onDelete)="service.deletePoll(poll)"
+			(onStart)="service.startPoll(poll)" (onStop)="service.stopPoll()" (onClose)="service.closePoll()"></twoll-poll>
 		<md-card id="new-card"></md-card>
 		<div id="new-button">
 			<button md-fab (click)="service.createPoll()"><i class="material-icons">add</i></button>
@@ -16,7 +19,7 @@ import {TeacherService} from "./teacher.service";
 		}
 		
 		twoll-poll {
-			margin: 10px;
+			margin: 10px 0;
 		}
 		
 		#new-card {

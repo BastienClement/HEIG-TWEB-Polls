@@ -42,7 +42,7 @@ class Room (owner: ActorRef) extends Actor with PollActor {
 			broadcastRoomState()
 
 		case Room.Vote(answer) =>
-			if (poll.isDefined && !voters.contains(sender()) && answer > 0 && answer < poll.get.answers.length) {
+			if (poll.isDefined && !voters.contains(sender()) && answer >= 0 && answer < poll.get.answers.length) {
 				voters += sender()
 				results(answer) += 1
 				broadcastRoomState()

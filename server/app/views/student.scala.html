@@ -1,0 +1,7 @@
+@(room: String)
+@common()
+<script>var ROOM_ID = "@room.replaceAll("[^0-9]", "")"</script>
+<script>System.import("app").then(function(app) {
+    app.bootstrapStudent();
+}).catch(console.error.bind(console));</script>
+<student-app>Loading...</student-app>

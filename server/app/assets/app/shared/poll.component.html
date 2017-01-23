@@ -1,7 +1,45 @@
 <md-card>
 	<div id="title">
-		<h3>{{poll.question}}</h3>
-		<button id="edit" md-button><i class="material-icons">mode_edit</i></button>
-		<button id="play" md-button><i class="material-icons">play_circle_outline</i></button>
+		<h3 *ngIf="!editing">{{poll.question}}</h3>
+		<input *ngIf="editing" id="question" placeholder="Question" [(ngModel)]="poll.question">
+
+		<button *ngIf="editable && !editing && !active()" id="edit" md-button (click)="edit()"><i class="material-icons">mode_edit</i></button>
+		<button *ngIf="editable && !editing && !active()" id="play" md-button (click)="start()"><i class="material-icons">play_circle_outline</i></button>
+		<button *ngIf="editable && active() && !state.done" id="stop" md-button (click)="stop()"><i class="material-icons">insert_chart</i></button>
+		<button *ngIf="editable && active() && state.done" id="stop" md-button (click)="close()"><i class="material-icons">close</i></button>
 	</div>
+	<md-card-content *ngIf="editing">
+		<div class="answer" *ngFor="let answer of poll.answers; let i = index; trackBy: identify;">
+			<i class="material-icons">chevron_right</i>
+			<input class="answer" placeholder="Answer {{i + 1}}" [(ngModel)]="poll.answers[i]">
+			<button md-button (click)="deleteAnswer(i)"><i class="material-icons">clear</i></button>
+		</div>
+	</md-card-content>
+	<md-card-content *ngIf="(!editable && submitted != poll.id) && active() && !state.done">
+		<md-radio-group [(ngModel)]="answer">
+			<md-radio-button *ngFor="let answer of poll.answers; let i = index;" [value]="i">
+				{{answer}}
+			</md-radio-button>
+		</md-radio-group>
+		<button id="submit" md-button (click)="submit()">Submit</button>
+	</md-card-content>
+	<md-card-content id="vote-count" *ngIf="(editable || submitted == poll.id) && active() && !state.done">
+		Vote in progress...<br>
+		<i class="material-icons">playlist_add_check</i>
+		<span>{{receivedAnswers()}}</span>
+	</md-card-content>
+	<md-card-content *ngIf="active() && state.done">
+		<div class="answer-bar-wrapper" *ngFor="let count of state.results; let i = index; trackBy: identify;">
+			<div class="answer-bar" [style.width]="(count / (receivedAnswers() || 1) * 100) + '%'"></div>
+			<div class="answer-label">{{poll.answers[i]}}</div>
+			<div class="answer-count">{{count}}</div>
+		</div>
+	</md-card-content>
+	<md-card-actions *ngIf="editing">
+		<button id="add" md-button (click)="createAnswer()">Add response</button>
+		<div id="actions-right">
+			<button id="delete" md-button (click)="deletePoll()">Delete</button>
+			<button id="save" md-button (click)="save()">Save</button>
+		</div>
+	</md-card-actions>
 </md-card>

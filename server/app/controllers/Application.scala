@@ -22,8 +22,12 @@ class Application @Inject() (teacherSocketFactory: TeacherSocket.Factory)
                             (implicit as: ActorSystem, mat: Materializer)
 		extends Controller {
 
-	def index = Action {
+	def teacher = Action {
 		Ok(views.html.teacher())
+	}
+
+	def student(room: String) = Action {
+		Ok(views.html.student(room))
 	}
 
 	/** A flow transformer allowing to read and write socket Messages */
