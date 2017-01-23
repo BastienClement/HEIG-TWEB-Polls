@@ -41,9 +41,7 @@ class StudentSocket @Inject() (@Assisted out: ActorRef, @Assisted roomId: String
 	/** Message handler */
 	def ready: Receive = {
 		// Voting
-		case Message("vote", answer) =>
-			println("vote", answer.as[Int])
-			room ! Room.Vote(answer.as[Int])
+		case Message("vote", answer) => room ! Room.Vote(answer.as[Int])
 
 		// The room status was updated
 		case Room.StateUpdated(question) => out ! Message("STATE_UPDATED", question)
