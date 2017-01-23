@@ -18,7 +18,7 @@ export class TeacherService {
 
 	constructor() {
 		this.onlines.next(0);
-		this.roomId.subscribe(id => this.quickJoinURL = `https://twoll.me/${id}`);
+		this.roomId.subscribe(id => this.quickJoinURL = `http://twoll.me/${id}`);
 
 		this.polls.push(new Poll("How awesome is Twoll.me?", ["Super awesome!", "Quite awesome!", "Somewhat awesome!"]));
 
