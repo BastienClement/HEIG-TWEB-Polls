@@ -76,6 +76,7 @@ input#question {
 	border-radius: 2px;
 	margin: 12px 0;
 	position: relative;
+	text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.3);
 }
 
 .answer-bar {
