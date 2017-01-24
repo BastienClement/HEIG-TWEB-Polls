@@ -45,3 +45,5 @@ libraryDependencies ++= {
 resolveFromWebjarsNodeModulesDir := true
 
 routesGenerator := InjectedRoutesGenerator
+
+enablePlugins(DockerPlugin)
