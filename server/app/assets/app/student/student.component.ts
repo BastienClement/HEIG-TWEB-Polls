@@ -49,6 +49,8 @@ export class StudentComponent {
 	constructor(public service: StudentService) {
 	}
 
+
+
 	public vote(choice: number): void {
 		this.service.vote(choice);
 	}

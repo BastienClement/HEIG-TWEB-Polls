@@ -1,7 +1,8 @@
 <md-card>
+	<div *ngIf="error != null && (!active() || !state.done)" class="error">{{error}}</div>
 	<div id="title">
 		<h3 *ngIf="!editing">{{poll.question}}</h3>
-		<input *ngIf="editing" id="question" placeholder="Question" [(ngModel)]="poll.question">
+		<input *ngIf="editing" id="question" placeholder="Question" [(ngModel)]="poll.question" required>
 
 		<button *ngIf="editable && !editing && !active()" id="edit" md-button (click)="edit()"><i class="material-icons">mode_edit</i></button>
 		<button *ngIf="editable && !editing && !active()" id="play" md-button (click)="start()"><i class="material-icons">play_circle_outline</i></button>
@@ -11,7 +12,7 @@
 	<md-card-content *ngIf="editing">
 		<div class="answer" *ngFor="let answer of poll.answers; let i = index; trackBy: identify;">
 			<i class="material-icons">chevron_right</i>
-			<input class="answer" placeholder="Answer {{i + 1}}" [(ngModel)]="poll.answers[i]">
+			<input class="answer" placeholder="Answer {{i + 1}}" [(ngModel)]="poll.answers[i]" required>
 			<button md-button (click)="deleteAnswer(i)"><i class="material-icons">clear</i></button>
 		</div>
 	</md-card-content>

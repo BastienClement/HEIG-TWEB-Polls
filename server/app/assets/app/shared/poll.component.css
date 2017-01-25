@@ -135,3 +135,9 @@ md-radio-button {
 #submit {
 	margin-top: 12px;
 }
+
+.error{
+	color: rgba(233, 119, 112, 0.8);
+	font-weight: bold;
+	margin-bottom: 15px;
+}

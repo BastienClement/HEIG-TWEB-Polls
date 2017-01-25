@@ -12,6 +12,7 @@ export class PollComponent {
 	@Input() editable: boolean;
 	@Input() editing: boolean;
 	@Input() state: RoomState;
+	@Input() error: string;
 
 	@Output() onEdit = new EventEmitter<void>();
 	@Output() onSave = new EventEmitter<void>();
@@ -32,11 +33,25 @@ export class PollComponent {
 	}
 
 	public save(): void {
-		this.onSave.emit();
+		if(this.poll.question.length == 0){
+			this.error = "Question can not be empty";
+		}
+		else if(this.poll.answers.length == 0){
+			this.error = "A question must at least have one answer";
+		}
+		else if(this.poll.answers.indexOf("") != -1){
+			this.error = "No answer can be empty";
+		}
+		else{
+			this.error = null;
+			this.onSave.emit();
+		}
 	}
 
 	public deletePoll(): void {
-		this.onDelete.emit();
+		if(confirm("Are you sure?")) {
+			this.onDelete.emit();
+		}
 	}
 
 	public start(): void {
@@ -44,16 +59,24 @@ export class PollComponent {
 	}
 
 	public stop(): void {
+		this.error = null;
 		this.onStop.emit();
 	}
 
 	public close(): void {
+		this.error = null;
 		this.onClose.emit();
 	}
 
 	public submit(): void {
-		this.onSubmit.emit(this.answer);
-		this.submitted = this.poll.id;
+		if(this.answer != -1) {
+			this.error = null;
+			this.onSubmit.emit(this.answer);
+			this.submitted = this.poll.id;
+		}
+		else{
+			this.error = "You must choose an answer";
+		}
 	}
 
 	public identify(index: number): number {
@@ -61,7 +84,9 @@ export class PollComponent {
 	}
 
 	public deleteAnswer(index: number): void {
-		this.poll.answers.splice(index, 1);
+		if(this.poll.answers.length > 1) {
+			this.poll.answers.splice(index, 1);
+		}
 	}
 
 	public createAnswer(): void {

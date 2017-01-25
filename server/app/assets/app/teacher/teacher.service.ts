@@ -53,6 +53,7 @@ export class TeacherService {
 
 	public stopEditing(poll: Poll): void {
 		if (poll.id == this.editing) {
+			if(poll.question.length )
 			this.editing = null;
 		}
 	}
